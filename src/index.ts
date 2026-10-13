@@ -1,53 +1,34 @@
 #!/usr/bin/env bun
 /**
- * distributed-memory-optimization-suite - Memory management tools for optimizing agent memory usage in distributed systems
- * Built by Retsumdk
+ * distributed-memory-optimization-suite
+ * Retention scoring, compaction, and budget enforcement for agent memory
+ * in distributed systems.
+ * Built by Retsumdk.
  */
 
-import { Command } from "commander";
-import { existsSync, readFileSync } from "fs";
-import { join } from "path";
-
-interface Config {
-  apiKey?: string;
-  baseUrl: string;
-  timeout: number;
-  retries: number;
-}
-
-const DEFAULTS: Config = {
-  baseUrl: "https://api.example.com",
-  timeout: 30000,
-  retries: 3,
-};
-
-function loadConfig(): Config {
-  const cfgPath = join(process.cwd(), "config.json");
-  if (existsSync(cfgPath)) {
-    try {
-      return { ...DEFAULTS, ...JSON.parse(readFileSync(cfgPath, "utf-8")) };
-    } catch { /* ignore */ }
-  }
-  return { ...DEFAULTS };
-}
-
-const name = "distributed-memory-optimization-suite";
-
-async function main(cfg: Config) {
-  console.log(`[${name}] Connected to ${cfg.baseUrl}`);
-  console.log(`[${name}] Timeout: ${cfg.timeout}ms | Retries: ${cfg.retries}`);
-  // TODO: implement your logic here
-  console.log(`[${name}] Done.`);
-}
-
-const program = new Command();
-program.name("distributed-memory-optimization-suite").description("Memory management tools for optimizing agent memory usage in distributed systems").version("1.0.0")
-  .option("-c, --config <path>", "Config file path", "config.json")
-  .option("-v, --verbose", "Verbose mode")
-  .action(async (opts) => {
-    const cfg = loadConfig();
-    if (opts.verbose) console.log("Verbose mode on");
-    try { await main(cfg); }
-    catch (e) { console.error(`Error: ${e}`); process.exit(1); }
-  });
-program.parse(process.argv);
+export { MemoryCluster, type ClusterOptions } from "./cluster.js";
+export { compactStore, type ClusterGroup } from "./compactor.js";
+export { runDemo } from "./demo.js";
+export { isMemoryError, MemoryError, type MemoryErrorCode } from "./errors.js";
+export { evictToTarget } from "./evictor.js";
+export { optimizeStore } from "./optimizer.js";
+export { loadClusterState, saveClusterState } from "./persistence.js";
+export { frequencyFactor, recencyFactor, scoreEntry } from "./scoring.js";
+export { createMemoryServer, type ServerOptions } from "./server.js";
+export { estimateTokens, isMemoryKind, MemoryStore, type StoreOptions } from "./store.js";
+export { jaccard, textSimilarity, tokenize } from "./similarity.js";
+export {
+  DEFAULT_CONFIG,
+  validateConfig,
+  type ClusterReport,
+  type ClusterStats,
+  type CompactResult,
+  type EvictResult,
+  type MemoryEntry,
+  type MemoryKind,
+  type NewMemoryInput,
+  type NodeReport,
+  type NodeStats,
+  type OptimizerConfig,
+  type RetentionWeights,
+} from "./types.js";

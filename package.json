@@ -1,17 +1,53 @@
 {
   "name": "distributed-memory-optimization-suite",
-  "description": "Memory management tools for optimizing agent memory usage in distributed systems",
+  "description": "Deterministic memory optimization for distributed agent fleets: recency-weighted retention scoring, similarity-based compaction, budget eviction, and multi-node coordination with zero runtime dependencies",
   "version": "1.0.0",
   "type": "module",
-  "scripts": {
-    "test": "bun test",
-    "build": "tsc"
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
   },
-  "dependencies": {
-    "commander": "^11.1.0"
+  "bin": {
+    "dmos": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "demo": "bun src/cli.ts demo",
+    "prepare": "tsc -p tsconfig.build.json"
+  },
+  "keywords": [
+    "agents",
+    "memory",
+    "compaction",
+    "eviction",
+    "distributed-systems",
+    "retention",
+    "token-budget",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Retsumdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Retsumdk/distributed-memory-optimization-suite.git"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "devDependencies": {
-    "bun-types": "^1.0.0",
-    "typescript": "^5.3.0"
+    "@types/node": "^24.0.0",
+    "bun-types": "^1.2.0",
+    "typescript": "^5.6.0"
   }
 }

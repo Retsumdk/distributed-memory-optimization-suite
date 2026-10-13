@@ -1,5 +1,9 @@
 node_modules/
 dist/
-.env
-*.log
 coverage/
+*.log
+*.tmp
+*.tmp-*
+.tmp-*
+.env
+cluster-state.json
